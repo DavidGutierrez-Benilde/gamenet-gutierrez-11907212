@@ -11,6 +11,11 @@ public class Launchmanager : MonoBehaviourPunCallbacks
     public GameObject ConnectionStatusPanel;
     public GameObject LobbyPanel; 
     
+    void Awake()
+    {
+        PhotonNetwork.AutomaticallySyncScene = true; 
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,6 +78,7 @@ public class Launchmanager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log(PhotonNetwork.NickName + " has entered " + PhotonNetwork.CurrentRoom.Name);
+        PhotonNetwork.LoadLevel("GameScene");
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

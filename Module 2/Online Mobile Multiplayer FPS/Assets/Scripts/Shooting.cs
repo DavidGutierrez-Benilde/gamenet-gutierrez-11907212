@@ -12,13 +12,18 @@ public class Shooting : MonoBehaviourPunCallbacks
     [Header("HP Related Stuff")]
     public float startHealth = 100;
     private float health;
-    public Image healthBar; 
+    public Image healthBar;
+    public bool isDead; 
+
+    [Header("Points")]
+    public int killCount; 
 
     private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
+        killCount = 0;
         health = startHealth;
         healthBar.fillAmount = health / startHealth; 
         animator = this.GetComponent<Animator>();
@@ -45,6 +50,12 @@ public class Shooting : MonoBehaviourPunCallbacks
             if (hit.collider.gameObject.CompareTag("Player") && !hit.collider.gameObject.GetComponent<PhotonView>().IsMine)
             {
                 hit.collider.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, 25);
+
+                if(hit.collider.gameObject.GetComponent<Shooting>().isDead == false 
+                    && hit.collider.gameObject.GetComponent<Shooting>().health <= 0)
+                {
+                    this.gameObject.GetComponent<PhotonView>().RPC("UpdateKillCount", RpcTarget.AllBuffered, 1);
+                }
             }
         }
     }
@@ -57,7 +68,7 @@ public class Shooting : MonoBehaviourPunCallbacks
 
         if (health <= 0) // If player (you) is dead
         {
-            Die();  
+            Die();
             Debug.Log(info.Sender.NickName + " killed " + info.photonView.Owner.NickName);
         }
     }
@@ -74,6 +85,7 @@ public class Shooting : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             animator.SetBool("isDead", true);
+            photonView.RPC("SetIsDead", RpcTarget.AllBuffered, true);
             StartCoroutine(RespawnCountdown());
         }
     }
@@ -94,6 +106,7 @@ public class Shooting : MonoBehaviourPunCallbacks
 
         animator.SetBool("isDead", false);
         respawnText.GetComponent<Text>().text = "";
+        photonView.RPC("SetIsDead", RpcTarget.AllBuffered, false);
 
         int randomPointX = Random.Range(-20, 20);
         int randomPointZ = Random.Range(-20, 20);
@@ -109,5 +122,17 @@ public class Shooting : MonoBehaviourPunCallbacks
     {
         health = 100;
         healthBar.fillAmount = health / startHealth;
+    }
+
+    [PunRPC]
+    public void SetIsDead(bool condition)
+    {
+        isDead = condition; 
+    }
+
+    [PunRPC]
+    public void UpdateKillCount(int amount)
+    {
+        killCount += amount;
     }
 }

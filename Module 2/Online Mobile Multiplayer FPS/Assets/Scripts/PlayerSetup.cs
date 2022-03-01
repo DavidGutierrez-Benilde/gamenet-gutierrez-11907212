@@ -20,7 +20,7 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
 
     private Shooting shooting;
 
-    public TextMeshProUGUI playerName; 
+    public TextMeshProUGUI playerName;
 
     void Start()
     {
@@ -46,6 +46,8 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
             fpsCamera.enabled = true;
 
             playerUI.transform.Find("FireButton").GetComponent<Button>().onClick.AddListener(() => shooting.FireWeapon());
+            this.gameObject.GetComponent<Shooting>().whoKilledWhoText = playerUI.transform.Find
+                                            ("WhoKilledWhoText").GetComponent<TextMeshProUGUI>();
         }
         else
         {

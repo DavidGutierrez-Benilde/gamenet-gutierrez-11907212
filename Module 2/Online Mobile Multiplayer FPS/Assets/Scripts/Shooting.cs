@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Photon.Pun; 
+using Photon.Pun;
+using TMPro; 
 
 public class Shooting : MonoBehaviourPunCallbacks
 {
@@ -16,7 +17,10 @@ public class Shooting : MonoBehaviourPunCallbacks
     public bool isDead; 
 
     [Header("Points")]
-    public int killCount; 
+    public int killCount;
+
+    [Header("UI Settings")]
+    public TextMeshProUGUI whoKilledWhoText; 
 
     private Animator animator;
 
@@ -51,9 +55,10 @@ public class Shooting : MonoBehaviourPunCallbacks
             {
                 hit.collider.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, 25);
 
-                if(hit.collider.gameObject.GetComponent<Shooting>().isDead == false 
-                    && hit.collider.gameObject.GetComponent<Shooting>().health <= 0)
+                if(hit.collider.gameObject.GetComponent<Shooting>().health <= 0 &&
+                        hit.collider.gameObject.GetComponent<Shooting>().isDead == false)
                 {
+                    hit.collider.gameObject.GetComponent<PhotonView>().RPC("SetIsDead", RpcTarget.AllBuffered, true);
                     this.gameObject.GetComponent<PhotonView>().RPC("UpdateKillCount", RpcTarget.AllBuffered, 1);
                 }
             }
@@ -85,7 +90,6 @@ public class Shooting : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             animator.SetBool("isDead", true);
-            photonView.RPC("SetIsDead", RpcTarget.AllBuffered, true);
             StartCoroutine(RespawnCountdown());
         }
     }

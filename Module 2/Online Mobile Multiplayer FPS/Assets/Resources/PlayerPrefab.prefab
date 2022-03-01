@@ -4116,6 +4116,7 @@ MonoBehaviour:
   healthBar: {fileID: 2137000871}
   isDead: 0
   killCount: 0
+  whoKilledWhoText: {fileID: 0}
 --- !u!1 &3685309639672398495
 GameObject:
   m_ObjectHideFlags: 0

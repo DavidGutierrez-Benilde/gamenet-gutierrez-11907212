@@ -36,7 +36,6 @@ public class Shooting : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public void FireWeapon()
@@ -49,7 +48,6 @@ public class Shooting : MonoBehaviourPunCallbacks
             Debug.Log(hit.collider.gameObject.name);
 
             photonView.RPC("CreateHitEffects", RpcTarget.All, hit.point);
-
 
             if (hit.collider.gameObject.CompareTag("Player") && !hit.collider.gameObject.GetComponent<PhotonView>().IsMine)
             {
@@ -75,6 +73,16 @@ public class Shooting : MonoBehaviourPunCallbacks
         {
             Die();
             Debug.Log(info.Sender.NickName + " killed " + info.photonView.Owner.NickName);
+            
+            GameObject[] players;
+
+            players = GameObject.FindGameObjectsWithTag("Player");
+            
+            foreach (GameObject p in players)
+            {
+                p.gameObject.GetComponent<PhotonView>().RPC("UpdateKillLog", RpcTarget.All, 
+                    info.Sender.NickName + " killed " + info.photonView.Owner.NickName);
+            }
         }
     }
 
@@ -94,6 +102,12 @@ public class Shooting : MonoBehaviourPunCallbacks
         }
     }
 
+    [PunRPC]
+    public void UpdateKillLog(string text)
+    {
+        whoKilledWhoText.text = text;
+    }
+
     IEnumerator RespawnCountdown()
     {
         GameObject respawnText = GameObject.Find("RespawnText");
@@ -101,6 +115,11 @@ public class Shooting : MonoBehaviourPunCallbacks
 
         while (respawnTime > 0)
         {
+            if (respawnTime <= 3)
+            {
+                whoKilledWhoText.text = "";
+            }
+
             yield return new WaitForSeconds(1.0f);
             respawnTime--;
 

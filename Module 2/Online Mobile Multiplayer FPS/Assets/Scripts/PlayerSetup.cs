@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.Characters.FirstPerson;
 using Photon.Pun;
-using UnityEngine.UI; 
-
+using UnityEngine.UI;
+using TMPro;
 public class PlayerSetup : MonoBehaviourPunCallbacks
 {
     public GameObject fpsModel;
@@ -18,7 +18,9 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
     private Animator animator;
     public Avatar fpsAvatar, nonFpsAvatar;
 
-    private Shooting shooting; 
+    private Shooting shooting;
+
+    public TextMeshProUGUI playerName; 
 
     void Start()
     {
@@ -31,7 +33,9 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
         animator.SetBool("isLocalPlayer", photonView.IsMine);
         animator.avatar = photonView.IsMine ? fpsAvatar : nonFpsAvatar;
 
-        shooting = this.GetComponent<Shooting>(); 
+        shooting = this.GetComponent<Shooting>();
+
+        playerName.text = this.GetComponent<PhotonView>().Owner.NickName; 
 
         if (photonView.IsMine)
         {

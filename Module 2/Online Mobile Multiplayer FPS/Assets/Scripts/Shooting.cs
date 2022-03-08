@@ -115,12 +115,8 @@ public class Shooting : MonoBehaviourPunCallbacks
 
         while (respawnTime > 0)
         {
-            if (respawnTime <= 3)
-            {
-                whoKilledWhoText.text = "";
-            }
-
             yield return new WaitForSeconds(1.0f);
+
             respawnTime--;
 
             transform.GetComponent<PlayerMovementController>().enabled = false;
@@ -129,12 +125,18 @@ public class Shooting : MonoBehaviourPunCallbacks
 
         animator.SetBool("isDead", false);
         respawnText.GetComponent<Text>().text = "";
+
         photonView.RPC("SetIsDead", RpcTarget.AllBuffered, false);
 
+        /*
         int randomPointX = Random.Range(-20, 20);
         int randomPointZ = Random.Range(-20, 20);
+        */
 
-        this.transform.position = new Vector3(randomPointX, 0, randomPointZ);
+        Vector3 spawnLocation = RandomPoints.instance.spawnPoints
+                                        [Random.Range(0, RandomPoints.instance.spawnPoints.Count)].transform.position;
+
+        this.transform.position = spawnLocation; 
         transform.GetComponent<PlayerMovementController>().enabled = true;
 
         photonView.RPC("RegainHealth", RpcTarget.AllBuffered);

@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         GameObject[] players;
+        GameObject winner; 
 
         players = GameObject.FindGameObjectsWithTag("Player");
 
@@ -34,6 +35,13 @@ public class GameManager : MonoBehaviour
             if(p.GetComponent<Shooting>().killCount >= 10)
             {
                 Debug.Log(p.GetComponent<PhotonView>().Owner.NickName + " wins.");
+                winner = p; 
+
+                foreach(GameObject pl in players)
+                {
+                     pl.GetComponent<PhotonView>().RPC("UpdateKillLog", RpcTarget.All,
+                        winner.GetComponent<PhotonView>().Owner.NickName + " wins.");
+                }
             }
         }
     }

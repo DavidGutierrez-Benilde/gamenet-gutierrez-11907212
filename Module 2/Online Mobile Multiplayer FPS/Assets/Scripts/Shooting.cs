@@ -105,7 +105,8 @@ public class Shooting : MonoBehaviourPunCallbacks
     [PunRPC]
     public void UpdateKillLog(string text)
     {
-        whoKilledWhoText.text = text;
+        if (photonView.IsMine)
+            whoKilledWhoText.text = text;
     }
 
     IEnumerator RespawnCountdown()

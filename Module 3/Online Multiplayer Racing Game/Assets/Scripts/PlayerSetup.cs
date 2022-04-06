@@ -14,9 +14,15 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
         {
             GetComponent<VehicleMovement>().enabled = photonView.IsMine;
             GetComponent<LapController>().enabled = photonView.IsMine; 
+            GetComponent<Shooting>().enabled = false; 
             camera.enabled = photonView.IsMine; 
         }
         else if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("dr"))
-        {}
+        {
+            GetComponent<VehicleMovement>().enabled = photonView.IsMine;
+            GetComponent<LapController>().enabled = photonView.IsMine; 
+            GetComponent<Shooting>().enabled = photonView.IsMine; 
+            camera.enabled = photonView.IsMine; 
+        }
     }
 }

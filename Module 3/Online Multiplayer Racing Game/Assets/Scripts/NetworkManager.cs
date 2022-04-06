@@ -133,7 +133,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             {
                 PhotonNetwork.LoadLevel("RacingScene");
             }
-            else if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("rc")) // death race mode
+            else if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsValue("dr")) // death race mode
             {
                 PhotonNetwork.LoadLevel("DeathRaceScene");
             }

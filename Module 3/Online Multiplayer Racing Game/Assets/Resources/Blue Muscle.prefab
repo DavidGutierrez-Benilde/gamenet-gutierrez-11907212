@@ -261,6 +261,7 @@ GameObject:
   - component: {fileID: -1555651623994619512}
   - component: {fileID: 2678332074446927552}
   - component: {fileID: -4665550905883667673}
+  - component: {fileID: 248336134238961313}
   - component: {fileID: 5121163759950668544}
   m_Layer: 0
   m_Name: Blue Muscle
@@ -400,6 +401,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lapTriggers: []
+--- !u!114 &248336134238961313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8860685829822862632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c9958dfc892b0d4c99174bd3b9a6d71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &5121163759950668544
 BoxCollider:
   m_ObjectHideFlags: 0

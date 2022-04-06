@@ -261,6 +261,7 @@ GameObject:
   - component: {fileID: -3607178245721005316}
   - component: {fileID: -8929217453430946727}
   - component: {fileID: 323562549546702810}
+  - component: {fileID: -2710953311430125310}
   - component: {fileID: -6879982355119119742}
   m_Layer: 0
   m_Name: Red Sports
@@ -400,6 +401,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lapTriggers: []
+--- !u!114 &-2710953311430125310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6316338638207696840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c9958dfc892b0d4c99174bd3b9a6d71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &-6879982355119119742
 BoxCollider:
   m_ObjectHideFlags: 0

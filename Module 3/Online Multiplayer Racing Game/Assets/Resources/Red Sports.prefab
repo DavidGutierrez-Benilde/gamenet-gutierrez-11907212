@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: -6879982355119119742}
   m_Layer: 0
   m_Name: Red Sports
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -413,6 +413,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9958dfc892b0d4c99174bd3b9a6d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 0}
+  startHealth: 100
 --- !u!65 &-6879982355119119742
 BoxCollider:
   m_ObjectHideFlags: 0

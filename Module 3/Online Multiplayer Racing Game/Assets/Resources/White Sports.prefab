@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: -5914735740738138432}
   m_Layer: 0
   m_Name: White Sports
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -332,6 +332,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9958dfc892b0d4c99174bd3b9a6d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camera: {fileID: 0}
+  startHealth: 100
 --- !u!65 &-5914735740738138432
 BoxCollider:
   m_ObjectHideFlags: 0

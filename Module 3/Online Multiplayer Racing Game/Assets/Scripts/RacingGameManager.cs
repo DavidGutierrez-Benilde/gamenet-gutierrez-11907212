@@ -2,28 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 
 public class RacingGameManager : MonoBehaviour
 {
-    public GameObject[] vehiclePrefabs; 
-    public Transform[] arrayStartingPositions; 
-    public GameObject[] finisherTextUI; 
+    public GameObject[] vehiclePrefabs;
+    public Transform[] arrayStartingPositions;
+    public GameObject[] finisherTextUI;
 
-    public static RacingGameManager instance = null; 
+    public static RacingGameManager instance = null;
 
     public List<GameObject> lapTriggers = new List<GameObject>();
-    public Text timeText; 
+    public Text timeText;
 
     void Awake()
     {
         if (instance == null)
         {
-            instance = this; 
+            instance = this;
         }
         else if (instance != this)
         {
-            Destroy(gameObject); 
+            Destroy(gameObject);
         }
 
         DontDestroyOnLoad(gameObject);
@@ -37,10 +37,10 @@ public class RacingGameManager : MonoBehaviour
 
             if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(Constants.PLAYER_SELECTION_NUMBER, out playerSelectionNumber))
             {
-                Debug.Log((int)playerSelectionNumber); 
+                Debug.Log((int)playerSelectionNumber);
 
-                int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber; 
-                Vector3 instantiatePosition = arrayStartingPositions[actorNumber - 1].position; 
+                int actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+                Vector3 instantiatePosition = arrayStartingPositions[actorNumber - 1].position;
                 PhotonNetwork.Instantiate(vehiclePrefabs[(int)playerSelectionNumber].name, instantiatePosition, Quaternion.identity);
             }
         }
@@ -54,6 +54,6 @@ public class RacingGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

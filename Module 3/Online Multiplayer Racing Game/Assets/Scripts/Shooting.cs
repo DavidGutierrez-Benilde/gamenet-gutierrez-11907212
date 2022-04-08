@@ -1,54 +1,64 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun; 
+using Photon.Pun;
 
 public class Shooting : MonoBehaviourPunCallbacks
 {
-    public Camera camera; 
+    public Camera camera;
+    public bool isControlEnabled;
 
     [Header("HP Settings")]
-    public float startHealth = 100; 
-    [SerializeField] private float health; 
+    public float startHealth = 100;
+    [SerializeField] private float health;
 
     [Header("Gun Settings")]
-    public float fireRate = 1f; 
-    public float fireDamage = 1f; 
-    private float nextFire = 0f; 
+    public float fireRate = 1f;
+    public float fireDamage = 1f;
+    private float nextFire = 0f;
 
     [Header("Laser Settings")]
     public bool isLaser;
 
     [Header("Is Projectile Settings")]
-    public bool isProjectile; 
-    public GameObject bulletPrefab; 
-    public Transform firePoint; 
+    public bool isProjectile;
+    public GameObject bulletPrefab;
+    public Transform firePoint;
 
     void Awake()
     {
         if (isLaser)
         {
-            bulletPrefab = null; 
-            firePoint = null; 
+            bulletPrefab = null;
+            firePoint = null;
         }
 
         if (isProjectile)
         {
-            bulletPrefab.GetComponent<Bullet>().fireDamage = fireDamage; 
+            bulletPrefab.GetComponent<Bullet>().fireDamage = fireDamage;
         }
     }
 
     void Start()
     {
-        health = startHealth; 
+        this.GetComponent<PhotonView>().RPC("SetHealth", RpcTarget.AllBuffered, startHealth);
+        isControlEnabled = false;
     }
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space) && Time.time > nextFire)
+        if (isControlEnabled)
         {
-            nextFire = Time.time + fireRate; 
-            FireWeapon(); 
+            if (Input.GetKey(KeyCode.Space) && Time.time > nextFire)
+            {
+                nextFire = Time.time + fireRate;
+                FireWeapon();
+            }
+        }
+
+        if (this.GetComponent<DeathController>().GetEliminationOrder() == 1)
+        {
+            Die();
         }
     }
 
@@ -83,7 +93,7 @@ public class Shooting : MonoBehaviourPunCallbacks
         {
             GameObject bullet = PhotonNetwork.Instantiate(bulletPrefab.name, firePoint.position, firePoint.rotation);
             // bullet.GetComponent<Rigidbody>().velocity = firePoint.forward * 2.5f; 
-            bullet.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * (gameObject.GetComponent<VehicleMovement>().speed * 1.75f), 
+            bullet.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * (gameObject.GetComponent<VehicleMovement>().speed * 1.75f),
                                                                     ForceMode.Impulse);
         }
     }
@@ -94,22 +104,21 @@ public class Shooting : MonoBehaviourPunCallbacks
         this.health -= damage;
         // this.healthBar.fillAmount = health / startHealth; 
 
-        if (health <= 0) // If player (you) is dead
+        if (health <= 0) // If player (you) is dead or if you win 
         {
-            // Die();
+            Die();
             Debug.Log(info.Sender.NickName + " killed " + info.photonView.Owner.NickName);
-            
-            GameObject[] players;
-
-            players = GameObject.FindGameObjectsWithTag("Player");
-            
-            /*
-            foreach (GameObject p in players)
-            {
-                p.gameObject.GetComponent<PhotonView>().RPC("UpdateKillLog", RpcTarget.All, 
-                    info.Sender.NickName + " killed " + info.photonView.Owner.NickName);
-            }
-            */
         }
+    }
+
+    [PunRPC]
+    public void SetHealth(float value)
+    {
+        health = value;
+    }
+
+    public void Die()
+    {
+        this.GetComponent<DeathController>().GameFinished();
     }
 }

@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; 
-using Photon.Pun; 
+using UnityEngine.UI;
+using Photon.Pun;
 
 public class CountdownManager : MonoBehaviourPunCallbacks
 {
-    public Text timerText; 
-    public float timeToStartRace = 5.0f; 
-    
+    public Text timerText;
+    public float timeToStartRace = 5.0f;
+
     // Start is called before the first frame update
     void Start()
     {
-        timerText = RacingGameManager.instance.timeText; 
+        timerText = RacingGameManager.instance.timeText;
     }
 
     // Update is called once per frame
@@ -22,7 +22,7 @@ public class CountdownManager : MonoBehaviourPunCallbacks
         {
             if (timeToStartRace > 0)
             {
-                timeToStartRace -= Time.deltaTime; 
+                timeToStartRace -= Time.deltaTime;
                 photonView.RPC("SetTime", RpcTarget.AllBuffered, timeToStartRace);
             }
             else if (timeToStartRace < 0)
@@ -39,7 +39,7 @@ public class CountdownManager : MonoBehaviourPunCallbacks
         {
             timerText.text = time.ToString("F1");
         }
-        else 
+        else
         {
             timerText.text = "";
         }
@@ -48,7 +48,8 @@ public class CountdownManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void StartRace()
     {
-        GetComponent<VehicleMovement>().isControlEnabled = true; 
+        GetComponent<VehicleMovement>().isControlEnabled = true;
+        GetComponent<Shooting>().isControlEnabled = true;
         this.enabled = false;
     }
 }

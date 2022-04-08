@@ -1,43 +1,43 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun; 
-using Photon.Realtime; 
-using ExitGames.Client.Photon; 
-using UnityEngine.UI; 
+using Photon.Pun;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
+using UnityEngine.UI;
 
 public class LapController : MonoBehaviourPunCallbacks
 {
-    public List<GameObject> lapTriggers = new List<GameObject>(); 
+    public List<GameObject> lapTriggers = new List<GameObject>();
 
     public enum RaiseEventsCode
     {
-        WhoFinishedEventCode = 0 
+        WhoFinishedEventCode = 0
     }
 
-    private int finishOrder = 0; 
+    private int finishOrder = 0;
 
     /* add listeners for all the listeners for our events */
     private void OnEnable()
     {
-        PhotonNetwork.NetworkingClient.EventReceived += OnEvent; 
+        PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
     }
     private void OnDisable()
     {
-        PhotonNetwork.NetworkingClient.EventReceived -= OnEvent; 
+        PhotonNetwork.NetworkingClient.EventReceived -= OnEvent;
     }
 
     void OnEvent(EventData photonEvent)
     {
         if (photonEvent.Code == (byte)RaiseEventsCode.WhoFinishedEventCode)
         {
-            object[] data = (object[]) photonEvent.CustomData; 
+            object[] data = (object[])photonEvent.CustomData;
 
             string nickNameOfFinishedPlayer = (string)data[0];
             finishOrder = (int)data[1];
-            int viewID = (int)data[2]; 
+            int viewID = (int)data[2];
 
-            Debug.Log(nickNameOfFinishedPlayer+ " " + finishOrder);
+            Debug.Log(nickNameOfFinishedPlayer + " " + finishOrder);
 
             GameObject orderUIText = RacingGameManager.instance.finisherTextUI[finishOrder - 1];
             orderUIText.SetActive(true);
@@ -45,7 +45,7 @@ public class LapController : MonoBehaviourPunCallbacks
             if (viewID == photonView.ViewID) // if viewID == you
             {
                 orderUIText.GetComponent<Text>().text = finishOrder + " " + nickNameOfFinishedPlayer + "(YOU)";
-                orderUIText.GetComponent<Text>().color = Color.red;  
+                orderUIText.GetComponent<Text>().color = Color.red;
             }
             else
             {
@@ -57,7 +57,7 @@ public class LapController : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        foreach(GameObject go in RacingGameManager.instance.lapTriggers)
+        foreach (GameObject go in RacingGameManager.instance.lapTriggers)
         {
             lapTriggers.Add(go);
         }
@@ -80,16 +80,16 @@ public class LapController : MonoBehaviourPunCallbacks
 
     public void GameFinish()
     {
-        GetComponent<PlayerSetup>().camera.transform.parent = null; 
-        GetComponent<VehicleMovement>().enabled = false; 
+        GetComponent<PlayerSetup>().camera.transform.parent = null;
+        GetComponent<VehicleMovement>().enabled = false;
 
-        finishOrder++; 
+        finishOrder++;
 
-        string nickName = photonView.Owner.NickName; 
-        int viewID = photonView.ViewID; 
+        string nickName = photonView.Owner.NickName;
+        int viewID = photonView.ViewID;
 
         // event data
-        object[] data = new object[] { nickName, finishOrder, viewID }; 
+        object[] data = new object[] { nickName, finishOrder, viewID };
 
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions
         {
@@ -99,9 +99,9 @@ public class LapController : MonoBehaviourPunCallbacks
 
         SendOptions sendOption = new SendOptions
         {
-            Reliability = false 
+            Reliability = false
         };
 
-        PhotonNetwork.RaiseEvent((byte) RaiseEventsCode.WhoFinishedEventCode, data, raiseEventOptions, sendOption);
+        PhotonNetwork.RaiseEvent((byte)RaiseEventsCode.WhoFinishedEventCode, data, raiseEventOptions, sendOption);
     }
 }

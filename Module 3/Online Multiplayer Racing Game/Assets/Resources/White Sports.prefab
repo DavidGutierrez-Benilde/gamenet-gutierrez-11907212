@@ -180,6 +180,7 @@ GameObject:
   - component: {fileID: -3203377339037693518}
   - component: {fileID: -8895870803419598862}
   - component: {fileID: 6188824923410114548}
+  - component: {fileID: 5417582259414347184}
   - component: {fileID: -3835506795608412288}
   - component: {fileID: -5914735740738138432}
   m_Layer: 0
@@ -320,6 +321,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lapTriggers: []
+--- !u!114 &5417582259414347184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7743692720329729219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8435391af04ea9478a461c3dcbc5b5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-3835506795608412288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,7 +346,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 0}
+  isControlEnabled: 0
   startHealth: 100
+  health: 0
+  fireRate: 1
+  fireDamage: 1
+  isLaser: 0
+  isProjectile: 0
+  bulletPrefab: {fileID: 0}
+  firePoint: {fileID: 0}
 --- !u!65 &-5914735740738138432
 BoxCollider:
   m_ObjectHideFlags: 0

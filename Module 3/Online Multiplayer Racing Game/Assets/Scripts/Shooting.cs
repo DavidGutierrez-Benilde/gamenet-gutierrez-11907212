@@ -9,15 +9,18 @@ public class Shooting : MonoBehaviourPunCallbacks
 
     [Header("HP Settings")]
     public float startHealth = 100; 
-    private float health; 
+    [SerializeField] private float health; 
 
     [Header("Gun Settings")]
-    public bool isLaser, isProjectile; 
     public float fireRate = 1f; 
     public float fireDamage = 1f; 
     private float nextFire = 0f; 
 
+    [Header("Laser Settings")]
+    public bool isLaser;
+
     [Header("Is Projectile Settings")]
+    public bool isProjectile; 
     public GameObject bulletPrefab; 
     public Transform firePoint; 
 
@@ -27,6 +30,11 @@ public class Shooting : MonoBehaviourPunCallbacks
         {
             bulletPrefab = null; 
             firePoint = null; 
+        }
+
+        if (isProjectile)
+        {
+            bulletPrefab.GetComponent<Bullet>().fireDamage = fireDamage; 
         }
     }
 
@@ -75,6 +83,8 @@ public class Shooting : MonoBehaviourPunCallbacks
         {
             GameObject bullet = PhotonNetwork.Instantiate(bulletPrefab.name, firePoint.position, firePoint.rotation);
             // bullet.GetComponent<Rigidbody>().velocity = firePoint.forward * 2.5f; 
+            bullet.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * (gameObject.GetComponent<VehicleMovement>().speed * 1.75f), 
+                                                                    ForceMode.Impulse);
         }
     }
 

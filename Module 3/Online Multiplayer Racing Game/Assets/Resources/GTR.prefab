@@ -413,12 +413,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9958dfc892b0d4c99174bd3b9a6d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 0}
+  camera: {fileID: 75858953}
   startHealth: 100
-  isLaser: 1
-  isProjectile: 0
+  health: 0
   fireRate: 0.2
   fireDamage: 1
+  isLaser: 1
+  isProjectile: 0
+  bulletPrefab: {fileID: 0}
+  firePoint: {fileID: 0}
 --- !u!65 &5708582084902689036
 BoxCollider:
   m_ObjectHideFlags: 0

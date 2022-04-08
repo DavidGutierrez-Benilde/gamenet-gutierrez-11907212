@@ -3,13 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun; 
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviourPunCallbacks
 {
+    public float fireDamage = 25f; 
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider collider)
     {
-        other.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, 
-                                                            other.gameObject.GetComponent<Shooting>().fireDamage);
-        PhotonNetwork.Destroy(this.gameObject);
+        if (collider.gameObject.CompareTag("Player") && !collider.gameObject.GetComponent<PhotonView>().IsMine)
+        {
+            collider.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, fireDamage);                                                                    
+        }
+
+        this.gameObject.GetComponent<PhotonView>().RPC("DestroyObject", RpcTarget.AllBuffered);
+    }
+    
+    [PunRPC]
+    void DestroyObject()
+    {
+        Destroy(this.gameObject);
     }
 }

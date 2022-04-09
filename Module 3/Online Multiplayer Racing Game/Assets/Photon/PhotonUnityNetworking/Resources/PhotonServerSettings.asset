@@ -45,6 +45,7 @@ MonoBehaviour:
   - OnTriggerEnter
   - DestroyObject
   - SetHealth
+  - IsLaserOn
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

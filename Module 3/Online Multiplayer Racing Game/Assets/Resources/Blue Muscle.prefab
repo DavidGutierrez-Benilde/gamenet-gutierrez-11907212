@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 8879392992337129010}
   - component: {fileID: 6782152029033126554}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -556,11 +556,11 @@ MonoBehaviour:
   isControlEnabled: 0
   startHealth: 100
   health: 0
+  bulletPrefab: {fileID: 1494871857153829280, guid: cb7dfb224a2dd0647a0025fbcc812d7b, type: 3}
   fireRate: 5
   fireDamage: 25
   isLaser: 0
   isProjectile: 1
-  bulletPrefab: {fileID: 1494871857153829280, guid: cb7dfb224a2dd0647a0025fbcc812d7b, type: 3}
   firePoint: {fileID: 3132367640482643308}
 --- !u!1 &8860685829822862634
 GameObject:

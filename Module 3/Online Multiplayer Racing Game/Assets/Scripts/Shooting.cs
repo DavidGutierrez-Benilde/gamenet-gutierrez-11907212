@@ -13,6 +13,7 @@ public class Shooting : MonoBehaviourPunCallbacks
     [SerializeField] private float health;
 
     [Header("Gun Settings")]
+    public GameObject bulletPrefab;
     public float fireRate = 1f;
     public float fireDamage = 1f;
     private float nextFire = 0f;
@@ -22,14 +23,12 @@ public class Shooting : MonoBehaviourPunCallbacks
 
     [Header("Is Projectile Settings")]
     public bool isProjectile;
-    public GameObject bulletPrefab;
     public Transform firePoint;
 
     void Awake()
     {
         if (isLaser)
         {
-            bulletPrefab = null;
             firePoint = null;
         }
 
@@ -54,9 +53,13 @@ public class Shooting : MonoBehaviourPunCallbacks
                 nextFire = Time.time + fireRate;
                 FireWeapon();
             }
+            else if (isLaser && Input.GetKeyUp(KeyCode.Space))
+            {
+                this.gameObject.GetComponent<PhotonView>().RPC("IsLaserOn", RpcTarget.AllBuffered, false);
+            }
         }
 
-        if (this.GetComponent<DeathController>().GetEliminationOrder() == 1)
+        if (this.GetComponent<DeathController>().GetEliminationOrder() <= 1)
         {
             Die();
         }
@@ -68,6 +71,7 @@ public class Shooting : MonoBehaviourPunCallbacks
         {
             RaycastHit hit;
             Ray ray = camera.ViewportPointToRay(new Vector3(0.5f, 0.5f));
+            this.gameObject.GetComponent<PhotonView>().RPC("IsLaserOn", RpcTarget.AllBuffered, true);
 
             if (Physics.Raycast(ray, out hit, 200))
             {
@@ -115,6 +119,12 @@ public class Shooting : MonoBehaviourPunCallbacks
     public void SetHealth(float value)
     {
         health = value;
+    }
+
+    [PunRPC]
+    public void IsLaserOn(bool value)
+    {
+        bulletPrefab.SetActive(value);
     }
 
     public void Die()

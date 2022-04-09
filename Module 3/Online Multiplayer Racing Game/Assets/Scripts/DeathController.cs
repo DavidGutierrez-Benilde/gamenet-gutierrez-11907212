@@ -17,6 +17,7 @@ public class DeathController : MonoBehaviourPunCallbacks
         GetComponent<PlayerSetup>().camera.transform.parent = null;
         GetComponent<VehicleMovement>().enabled = false;
         GetComponent<Shooting>().enabled = false;
+        GetComponent<Collider>().enabled = false;
 
         eliminationOrder--;
 
@@ -63,7 +64,7 @@ public class DeathController : MonoBehaviourPunCallbacks
             int viewID = (int)data[2];
 
             Debug.Log(nickNameOfKilledPlayer + " " + eliminationOrder);
-            GameObject eliminationUIText = RacingGameManager.instance.finisherTextUI[eliminationOrder + 1];
+            GameObject eliminationUIText = RacingGameManager.instance.finisherTextUI[eliminationOrder];
             eliminationUIText.SetActive(true);
 
             if (viewID == photonView.ViewID) // this is you
@@ -76,7 +77,7 @@ public class DeathController : MonoBehaviourPunCallbacks
                 eliminationUIText.GetComponent<Text>().text = (eliminationOrder + 1) + " " + nickNameOfKilledPlayer;
             }
 
-            if (eliminationOrder < 1)
+            if (eliminationOrder <= 1)
             {
                 Text winnerText = RacingGameManager.instance.timeText;
                 winnerText.GetComponent<Text>().text = nickNameOfKilledPlayer + " " + "WINS!";

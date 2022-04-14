@@ -41,6 +41,8 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         roomListGameObjects = new Dictionary<string, GameObject>();
         playerListGameObjects = new Dictionary<int, GameObject>();
         ActivatePanel(loginUIPanel.name);
+
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
 
     #region UI callbacks
@@ -80,6 +82,11 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public void OnLeaveGameButtonClicked()
     {
         PhotonNetwork.LeaveRoom();
+    }
+
+    public void OnStartGameButtonClicked()
+    {
+        PhotonNetwork.LoadLevel("GameScene");
     }
     #endregion
 

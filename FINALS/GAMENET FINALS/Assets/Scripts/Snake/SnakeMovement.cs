@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class SnakeMovement : MonoBehaviour
+public class SnakeMovement : MonoBehaviourPunCallbacks
 {
     public List<Transform> BodyParts = new List<Transform>();
 
@@ -29,7 +30,8 @@ public class SnakeMovement : MonoBehaviour
 
         for (int i = 0; i < initialSize; i++)
         {
-            AddBodyPart();
+            //AddBodyPart();
+            this.GetComponent<PhotonView>().RPC("AddBodyPart", RpcTarget.AllBuffered);
         }
     }
 
@@ -39,7 +41,7 @@ public class SnakeMovement : MonoBehaviour
         Move();
 
         if (Input.GetKey(KeyCode.Q))
-            AddBodyPart();
+            this.GetComponent<PhotonView>().RPC("AddBodyPart", RpcTarget.AllBuffered);
     }
 
     public void Move()
@@ -54,6 +56,12 @@ public class SnakeMovement : MonoBehaviour
         if (Input.GetAxis("Horizontal") != 0)
             BodyParts[0].Rotate(Vector3.up * rotationSpeed * Time.deltaTime * Input.GetAxis("Horizontal"));
 
+        this.GetComponent<PhotonView>().RPC("SnakeBodyMovement", RpcTarget.AllBuffered, currentSpeed);
+    }
+
+    [PunRPC]
+    public void SnakeBodyMovement(float currentSpeed)
+    {
         for (int i = 1; i < BodyParts.Count; i++)
         {
             currentBodyPart = BodyParts[i];
@@ -75,6 +83,7 @@ public class SnakeMovement : MonoBehaviour
         }
     }
 
+    [PunRPC]
     public void AddBodyPart()
     {
         Transform newPart = (Instantiate(bodyPrefab, BodyParts[BodyParts.Count - 1].position, BodyParts[BodyParts.Count - 1].rotation)

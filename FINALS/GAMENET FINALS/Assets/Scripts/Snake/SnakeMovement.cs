@@ -92,4 +92,14 @@ public class SnakeMovement : MonoBehaviourPunCallbacks
         newPart.SetParent(this.transform);
         BodyParts.Add(newPart);
     }
+
+    [PunRPC]
+    void RemoveBodyPart()
+    {
+        for (int i = BodyParts.Count - 1; i > initialSize; i--)
+        {
+            Destroy(BodyParts[i].gameObject);
+            BodyParts.RemoveAt(i);
+        }
+    }
 }

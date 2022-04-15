@@ -23,6 +23,9 @@ public class SnakeMovement : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        for (int i = 0; i < BodyParts.Count; i++) BodyParts[i].transform.position = SpawnLocations.instance.spawnPoints
+                                                        [Random.Range(0, SpawnLocations.instance.spawnPoints.Count)].transform.position;
+
         if (BodyParts.Count <= 0)
         {
             BodyParts.Add(this.transform.GetChild(0).gameObject.transform);

@@ -22,9 +22,19 @@ public class WallCollision : MonoBehaviourPunCallbacks
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Collision Detected");
             SnakeMovement snake = collision.gameObject.GetComponentInParent<SnakeMovement>();
 
             snake.GetComponent<PhotonView>().RPC("RemoveBodyPart", RpcTarget.AllBuffered);
+
+            Vector3 spawnLocation = SpawnLocations.instance.spawnPoints
+                                                   [Random.Range(0, SpawnLocations.instance.spawnPoints.Count)].transform.position;
+
+            while (spawnLocation == snake.transform.position)
+                spawnLocation = SpawnLocations.instance.spawnPoints
+                                                    [Random.Range(0, SpawnLocations.instance.spawnPoints.Count)].transform.position;
+
+            for (int i = 0; i < snake.BodyParts.Count; i++) snake.BodyParts[i].transform.position = spawnLocation;
         }
     }
 }

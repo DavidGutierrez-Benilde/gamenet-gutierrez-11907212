@@ -63,7 +63,7 @@ MonoBehaviour:
   - {fileID: 7628195709644433525}
   minimalDistance: 1
   initialSize: 4
-  speed: 1.75
+  speed: 5
   rotationSpeed: 50
   bodyPrefab: {fileID: 1329752119216267419, guid: 3c3a76276e1e509418cd3681637e97c1, type: 3}
 --- !u!114 &4299392835429381833

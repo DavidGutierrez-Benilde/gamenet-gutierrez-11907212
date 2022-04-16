@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class Apple : MonoBehaviour
+public class Apple : MonoBehaviourPunCallbacks
 {
     AppleSpawn appleSpawn;
     // Start is called before the first frame update
@@ -17,9 +18,15 @@ public class Apple : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             SnakeMovement snake = other.gameObject.GetComponentInParent<SnakeMovement>();
-            snake.AddBodyPart();
-            Destroy(this.gameObject);
+            snake.gameObject.GetComponent<PhotonView>().RPC("AddBodyPart", RpcTarget.AllBuffered);
+            this.gameObject.GetComponent<PhotonView>().RPC("DestroyObject", RpcTarget.AllBuffered);
             appleSpawn.SpawnFood();
         }
+    }
+
+    [PunRPC]
+    void DestroyObject()
+    {
+        Destroy(this.gameObject);
     }
 }

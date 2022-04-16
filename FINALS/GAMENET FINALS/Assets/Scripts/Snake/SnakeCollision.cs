@@ -17,15 +17,15 @@ public class SnakeCollision : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnCollisionEnter(Collision other) // other == player; 
     {
-        if (other.gameObject.CompareTag("BodyPart"))
+        if (other.gameObject.CompareTag("Player"))
         {
             SnakeMovement snake = other.gameObject.GetComponentInParent<SnakeMovement>();
 
             for (int i = 0; i < snake.initialSize; i++)
             {
-                if (snake.BodyParts[i].gameObject == other.gameObject)
+                if (this.gameObject == snake.BodyParts[i].gameObject)
                 {
                     Debug.Log("Hit itself");
                     return;

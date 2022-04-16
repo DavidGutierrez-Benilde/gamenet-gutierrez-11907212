@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1329752119216267622}
   - component: {fileID: 1329752119216267417}
   - component: {fileID: 2662399765843271763}
+  - component: {fileID: -7403529015933254236}
   m_Layer: 0
   m_Name: BodyPart
   m_TagString: BodyPart
@@ -112,3 +113,15 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &-7403529015933254236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329752119216267419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca296c546fc20744bae27b0477af9c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

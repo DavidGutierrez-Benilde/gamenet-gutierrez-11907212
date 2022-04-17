@@ -5,8 +5,11 @@ using Photon.Pun;
 
 public class SnakeMovement : MonoBehaviourPunCallbacks
 {
+    [Header("Snake in-game")]
     public List<Transform> BodyParts = new List<Transform>();
+    private int amountEaten = 0;
 
+    [Header("Snake Options")]
     public float minimalDistance = 0.25f;
 
     public int initialSize;
@@ -104,5 +107,16 @@ public class SnakeMovement : MonoBehaviourPunCallbacks
             Destroy(BodyParts[i].gameObject);
             BodyParts.RemoveAt(i);
         }
+        amountEaten = 0;
+    }
+
+    public int GetAmountEaten()
+    {
+        return amountEaten;
+    }
+
+    public void AddAmountEaten(int value)
+    {
+        amountEaten += value;
     }
 }

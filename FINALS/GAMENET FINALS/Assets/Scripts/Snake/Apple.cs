@@ -19,6 +19,8 @@ public class Apple : MonoBehaviourPunCallbacks
         {
             SnakeMovement snake = other.gameObject.GetComponentInParent<SnakeMovement>();
             snake.gameObject.GetComponent<PhotonView>().RPC("AddBodyPart", RpcTarget.AllBuffered);
+            snake.AddAmountEaten(1);
+            snake.GetComponent<PlayerStanding>().UpdateScores(snake.GetAmountEaten());
             this.gameObject.GetComponent<PhotonView>().RPC("DestroyObject", RpcTarget.AllBuffered);
             appleSpawn.SpawnFood();
         }

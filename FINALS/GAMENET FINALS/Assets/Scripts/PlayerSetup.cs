@@ -11,6 +11,7 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
     void Start()
     {
         this.GetComponent<SnakeMovement>().enabled = photonView.IsMine;
+        this.GetComponent<PlayerStanding>().enabled = photonView.IsMine;
         camera.enabled = photonView.IsMine;
     }
 

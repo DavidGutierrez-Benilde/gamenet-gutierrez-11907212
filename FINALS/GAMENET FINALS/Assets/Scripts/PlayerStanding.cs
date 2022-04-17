@@ -5,23 +5,30 @@ using Photon.Pun;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerStanding : MonoBehaviourPunCallbacks
 {
     private const byte PLAYER_COUNTER = 0;
-    private int playerOrder = PhotonNetwork.PlayerList.Length;
 
-    public void UpdateScores()
+    private void Start()
+    {
+        UpdateScores(this.GetComponent<SnakeMovement>().GetAmountEaten());
+    }
+
+    public void UpdateScores(int value)
     {
         string nickName = photonView.Owner.NickName;
+        int playerNumber = photonView.Owner.ActorNumber;
+        int score = value;
         int viewID = photonView.ViewID;
 
-        object data = new object[] { nickName, playerOrder, viewID };
+        object data = new object[] { nickName, playerNumber, score, viewID };
 
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions
         {
             Receivers = ReceiverGroup.All,
-            CachingOption = EventCaching.AddToRoomCache
+            CachingOption = EventCaching.DoNotCache
         };
 
         SendOptions sendOption = new SendOptions
@@ -48,13 +55,22 @@ public class PlayerStanding : MonoBehaviourPunCallbacks
         if (photonEvent.Code == PLAYER_COUNTER)
         {
             object[] data = (object[])photonEvent.CustomData;
-
             string playerNickName = (string)data[0];
-            playerOrder = (int)data[1];
-            int viewID = (int)data[2];
+            int playerNumber = (int)data[1];
+            int score = (int)data[2];
+            int viewID = (int)data[3];
+
+            Debug.Log("Event Raised");
+            Debug.Log("Score: " + score);
+            Debug.Log("PlayerNo: " + playerNumber);
+
+            GameObject scoresText = UIManager.instance.playerStandings[playerNumber - 1];
 
 
-
+            if (viewID == photonView.ViewID)
+                scoresText.GetComponent<TextMeshProUGUI>().text = playerNickName + " (YOU) " + score;
+            else
+                scoresText.GetComponent<TextMeshProUGUI>().text = playerNickName + " " + score;
         }
     }
 }

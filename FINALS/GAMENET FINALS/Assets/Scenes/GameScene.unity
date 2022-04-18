@@ -557,6 +557,7 @@ MonoBehaviour:
   - {fileID: 1532538225}
   - {fileID: 1743026765}
   - {fileID: 2058324093}
+  winnerText: {fileID: 843999237}
 --- !u!1 &668567294
 GameObject:
   m_ObjectHideFlags: 0

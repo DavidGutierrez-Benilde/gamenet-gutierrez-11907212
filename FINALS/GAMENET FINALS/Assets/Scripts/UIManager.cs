@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public static UIManager instance;
 
     public GameObject[] playerStandings;
+    public GameObject winnerText;
 
 
     private void Awake()

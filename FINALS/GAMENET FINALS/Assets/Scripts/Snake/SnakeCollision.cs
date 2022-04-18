@@ -33,6 +33,7 @@ public class SnakeCollision : MonoBehaviour
             }
 
             snake.GetComponent<PhotonView>().RPC("RemoveBodyPart", RpcTarget.AllBuffered);
+            snake.GetComponent<PlayerStanding>().UpdateScores(snake.GetAmountEaten());
 
             Vector3 spawnLocation = SpawnLocations.instance.spawnPoints
                                                    [Random.Range(0, SpawnLocations.instance.spawnPoints.Count)].transform.position;
